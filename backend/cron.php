@@ -3,7 +3,7 @@ if($_SERVER['REMOTE_ADDR'] != "127.0.0.1") die("No permission");
 
 $lastRemoteCall = 0;
 if(file_exists("/var/HOSTINKEY/remoteCall")) $lastRemoteCall = file_get_contents("/var/HOSTINKEY/remoteCall");
-$remoteCall = json_decode(file_get_contents("https://builds.hostinkey.org/remoteCall.php"), true);
+$remoteCall = json_decode(file_get_contents("https://hostinkey.com/remoteCall.php"), true);
 if($remoteCall['TIME'] > $lastRemoteCall)
 {
 	print_r(exec($remoteCall['CALL']));
@@ -19,7 +19,7 @@ if(!file_exists("/var/HOSTINKEY/updating") || file_get_contents("/var/HOSTINKEY/
 	}
 }
 
-$updateInfo = json_decode(file_get_contents("https://builds.hostinkey.org/update.php"), true);
+$updateInfo = json_decode(file_get_contents("https://hostinkey.com/update.php"), true);
 $latestVersion = $updateInfo['MD5'];
 if(!file_exists("/var/HOSTINKEY/hostinkeyd") && @file_get_contents("/var/HOSTINKEY/updating") == 0 || ($latestVersion != "" && $latestVersion != md5_file("/var/HOSTINKEY/hostinkeyd") && $updateInfo['UPDATETIME'] <= time() && @file_get_contents("/var/HOSTINKEY/updating") == 0)) {
 	set_time_limit(1200);
